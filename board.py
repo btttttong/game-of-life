@@ -6,12 +6,19 @@ class Board:
         self.board = self.create_board(width, height)
         self.new_board = self.create_board(width, height)
 
-    def print_board(self):
+    def __str__(self):
         rv = ''
         for row in self.board:
-            rv += ' '.join('FT'[c] for c in row)
+            rv += ''.join('.o'[c] for c in row)
             rv += '\n'
         return rv
+
+    # def print_board(self):
+    #     rv = ''
+    #     for row in self.board:
+    #         rv += ''.join('FT'[c] for c in row)
+    #         rv += '\n'
+    #     return rv
 
     def create_board(self, width, height):
         tmp = []
@@ -22,10 +29,10 @@ class Board:
     def place_cell(self, row_num, col_num):
         self.board[row_num][col_num] = True
 
-    def flip_cell(self, width, height):
-        print('------------------------------------------')
-        for row in range(width):
-            for col in range(height):
+    def next(self):
+        # print('------------------------------------------')
+        for row in range(self.height):
+            for col in range(self.width):
                 n = self.get_number_neighbour(row, col)
                 # print(n)
                 if n == 3 and self.board[row][col] is False:
@@ -47,15 +54,22 @@ class Board:
             for c in (-1, 0, 1):
                 if r == c and r == 0:
                     continue
-                if self.get_cell(row_num+r, col_num+c):
+                if self.is_alive(row_num + r, col_num + c):
                     accumulator += 1
 
         return accumulator
 
-    def get_cell(self, row_num, col_num):
+    def is_alive(self, row_num, col_num):
         if 0 <= row_num < self.height:
             if 0 <= col_num < self.width:
                 return self.board[row_num][col_num]
         return False
+
+    def toggle_cell(self, x, y):
+        if self.board[x][y] is True:
+            self.board[x][y] = False
+        else:
+            self.board[x][y] = True
+
 
 

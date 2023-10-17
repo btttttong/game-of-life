@@ -1,8 +1,6 @@
 from typing import NamedTuple
-
 from asciimatics.screen import Screen
-
-from life import Board
+from board import Board
 
 
 def place_glider_at_position(board, row_start, col_start):
