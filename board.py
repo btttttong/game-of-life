@@ -4,6 +4,7 @@ class Board:
         self.height = height
         # self.board = [[False]*3, [False]*3, [False]*3]
         self.board = self.create_board(width, height)
+        self.new_board = self.create_board(width, height)
 
     def print_board(self):
         rv = ''
@@ -22,10 +23,23 @@ class Board:
         self.board[row_num][col_num] = True
 
     def flip_cell(self, width, height):
+        print('------------------------------------------')
         for row in range(width):
             for col in range(height):
                 n = self.get_number_neighbour(row, col)
-                print(n)
+                # print(n)
+                if n == 3 and self.board[row][col] is False:
+                    self.new_board[row][col] = True
+                elif 2 <= n <=3 and self.board[row][col] is True:
+                    self.new_board[row][col] = True
+                else:
+                    self.new_board[row][col] = False
+
+        tmp = self.board
+        self.board = self.new_board
+        self.new_board = tmp
+
+
 
     def get_number_neighbour(self, row_num, col_num):
         accumulator = 0
@@ -45,10 +59,3 @@ class Board:
         return False
 
 
-board = Board(3, 3)
-board.place_cell(0, 1)
-board.place_cell(1, 1)
-board.place_cell(2, 1)
-board.flip_cell(3, 3)
-
-print(board.print_board())
